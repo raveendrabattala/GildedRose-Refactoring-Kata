@@ -27,3 +27,13 @@ There are instructions in the [TextTest Readme](../texttests/README.md) for sett
 
     executable:${TEXTTEST_HOME}/python/texttest_fixture.py
     interpreter:python
+
+    
+# pytest coverage report
+
+Name                  Stmts   Miss  Cover
+-----------------------------------------
+gilded_rose.py           53      3    94%
+test_gilded_rose.py      47      0   100%
+-----------------------------------------
+TOTAL                   100      3    97%
