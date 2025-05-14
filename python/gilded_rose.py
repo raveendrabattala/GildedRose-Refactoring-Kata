@@ -1,5 +1,6 @@
 from typing import List
 
+
 class Item:
     def __init__(self, name: str, sell_in: int, quality: int):
         self.name = name
@@ -9,11 +10,13 @@ class Item:
     def __repr__(self) -> str:
         return f"{self.name}, {self.sell_in}, {self.quality}"
 
+
 # Constants
 AGED_BRIE = "Aged Brie"
 BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 SULFURAS = "Sulfuras, Hand of Ragnaros"
 CONJURED = "Conjured"
+
 
 class ItemUpdater:
     """Base class for updating item properties."""
@@ -24,17 +27,22 @@ class ItemUpdater:
         """Ensure quality is between 0 and 50."""
         return max(0, min(50, quality))
 
+
 class NormalItemUpdater(ItemUpdater):
     """Updater for standard items."""
     def update(self, item: Item) -> None:
         item.sell_in -= 1
-        item.quality = self._constrain_quality(item.quality - (1 if item.sell_in >= 0 else 2))
+        item.quality = self._constrain_quality(
+            item.quality - (1 if item.sell_in >= 0 else 2)
+        )
+
 
 class AgedBrieUpdater(ItemUpdater):
     """Updater for Aged Brie, which increases in quality."""
     def update(self, item: Item) -> None:
         item.sell_in -= 1
         item.quality = self._constrain_quality(item.quality + 1)
+
 
 class BackstagePassUpdater(ItemUpdater):
     """Updater for Backstage Passes, with variable quality increase."""
@@ -50,16 +58,21 @@ class BackstagePassUpdater(ItemUpdater):
         else:
             item.quality = self._constrain_quality(item.quality + increase)
 
+
 class SulfurasUpdater(ItemUpdater):
     """Updater for Sulfuras, which never changes."""
     def update(self, item: Item) -> None:
         pass
 
+
 class ConjuredItemUpdater(ItemUpdater):
     """Updater for Conjured items, which degrade twice as fast."""
     def update(self, item: Item) -> None:
         item.sell_in -= 1
-        item.quality = self._constrain_quality(item.quality - (2 if item.sell_in >= 0 else 4))
+        item.quality = self._constrain_quality(
+            item.quality - (2 if item.sell_in >= 0 else 4)
+        )
+
 
 class GildedRose:
     """Manages inventory updates for items."""
@@ -78,3 +91,4 @@ class GildedRose:
             if CONJURED in item.name:
                 updater = ConjuredItemUpdater()
             updater.update(item)
+
